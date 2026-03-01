@@ -14,4 +14,4 @@ steps:
   - id: verify_fleet
     description: "Verify fleet health across all realms"
     command: |
-      /data/openclaw/workspace/workflows/fleet-status.lobster
+      /data/openclaw/workspace/Chelestra-Sea/workflows/fleet-status.lobster
