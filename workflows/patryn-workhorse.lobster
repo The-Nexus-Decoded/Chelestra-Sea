@@ -1,5 +1,5 @@
 name: patryn-workhorse
-description: "Consolidated GitHub orchestration: branch -> commit -> push -> PR -> issue close."
+description: "Consolidated GitHub orchestration: branch -> commit -> push -> PR -> issue close (v2)."
 args:
   repo_path:
     description: "Relative path to the repository directory (e.g., Pryan-Fire)."
