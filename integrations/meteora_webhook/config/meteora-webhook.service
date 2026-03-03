@@ -1,0 +1,18 @@
+[Unit]
+Description=Meteora DLMM Discord Webhook Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=openclaw
+WorkingDirectory=/data/openclaw/workspace/Chelestra-Sea/integrations/meteora_webhook
+Environment="PATH=/data/openclaw/workspace/Chelestra-Sea/integrations/meteora_webhook/venv/bin"
+EnvironmentFile=/etc/default/meteora-webhook  # or /etc/sysconfig/meteora-webhook
+ExecStartPre=/data/openclaw/workspace/Chelestra-Sea/integrations/meteora_webhook/venv/bin/pip install -q -r requirements.txt
+ExecStart=/data/openclaw/workspace/Chelestra-Sea/integrations/meteora_webhook/venv/bin/python -m meteora_webhook.server
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
