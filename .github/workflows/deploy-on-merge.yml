@@ -1,0 +1,34 @@
+name: Deploy workflows to fleet
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.FLEET_MAIN_SSH_KEY }}" > ~/.ssh/fleet_key
+          chmod 600 ~/.ssh/fleet_key
+          ssh-keyscan -H 100.103.189.117 >> ~/.ssh/known_hosts
+
+      - name: Deploy workflows to fleet
+        run: |
+          ssh -i ~/.ssh/fleet_key openclaw@100.103.189.117 '
+            set -e
+            REPO_DIR="/data/repos/Chelestra-Sea"
+            if [ ! -d "$REPO_DIR" ]; then
+              git clone git@github.com:The-Nexus-Decoded/Chelestra-Sea.git "$REPO_DIR"
+            fi
+            cd "$REPO_DIR"
+            git checkout main
+            git pull origin main
+            /usr/local/bin/lobster run /data/openclaw/workspace/workflows/workflow-deploy.lobster
+          '
