@@ -25,7 +25,7 @@ MODEL_PATTERNS=(
   "*27B*" "*13B*" "*9B*" "*7B*" "*4B*" "*2B*"
 )
 
-ARCHIVE_DIR="/data/archives/llm-models"
+ARCHIVE_DIR="/data/openclaw/archives/llm-models"
 DELETE_ORIGINALS=false  # Set true to remove source models after successful archive+test
 
 # CUDA architectures to build (space-separated). Auto-detected if left empty.
@@ -46,7 +46,7 @@ PORT_BASE=8000
 
 # Logging
 LOG_DIR="/data/openclaw/logs/llm-setup"
-REPORT_DIR="/data/reports/llm-setup"
+REPORT_DIR="/data/openclaw/reports/llm-setup"
 
 # ============================================================================
 # DERIVED SETTINGS
