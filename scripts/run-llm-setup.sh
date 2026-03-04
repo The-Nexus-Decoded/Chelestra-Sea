@@ -45,7 +45,7 @@ SWAP_SPACE=4  # GB
 PORT_BASE=8000
 
 # Logging
-LOG_DIR="/var/log/llm-setup"
+LOG_DIR="/data/openclaw/logs/llm-setup"
 REPORT_DIR="/data/reports/llm-setup"
 
 # ============================================================================
