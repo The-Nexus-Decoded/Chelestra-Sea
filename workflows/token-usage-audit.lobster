@@ -1,19 +1,27 @@
 name: token-usage-audit
-description: "Audit token usage and Rate Guard budgets across the fleet servers."
+description: "Audit rate guard health and token usage across fleet servers"
 steps:
-  - id: audit_local
-    description: "Check rate guard status on ola-claw-dev (local)"
+  - id: health
+    description: "Check rate guard health"
+    command: fleet health --json
+    timeoutMs: 15000
+
+  - id: sessions
+    description: "Check session sizes"
+    command: fleet sessions --json
+    timeoutMs: 15000
+
+  - id: report
+    description: "Format audit report"
     command: |
-      echo "--- [ola-claw-dev] Rate Guard ---"
-      systemctl --user status quota-monitor.timer | grep Active
-      grep "exhaustedUntil" /data/openclaw/openclaw.json || echo "No active exhaustion."
-  - id: audit_main
-    description: "Check rate guard status on ola-claw-main (Zifnab)"
-    command: |
-      echo "--- [ola-claw-main] Rate Guard ---"
-      ssh 100.103.189.117 "systemctl --user status quota-monitor.timer | grep Active; grep 'exhaustedUntil' /data/openclaw/openclaw.json || echo 'No active exhaustion.'"
-  - id: audit_trade
-    description: "Check rate guard status on ola-claw-trade (Hugh)"
-    command: |
-      echo "--- [ola-claw-trade] Rate Guard ---"
-      ssh 100.104.166.53 "systemctl --user status quota-monitor.timer | grep Active; grep 'exhaustedUntil' /data/openclaw/openclaw.json || echo 'No active exhaustion.'"
+      echo "========================================="
+      echo "  TOKEN USAGE AUDIT"
+      echo "========================================="
+      echo ""
+      fleet format health-report
+      echo ""
+      echo "--- SESSIONS ---"
+      echo ""
+      fleet format sessions-report
+    stdin: $health.stdout
+    timeoutMs: 10000
